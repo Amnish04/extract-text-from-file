@@ -9,7 +9,7 @@ export const config = {
     },
 };
 
-export async function extractTextFromFile(file: File): Promise<string> {
+async function extractTextFromFile(file: File): Promise<string> {
     if (file.type.includes("text/")) {
         return file.text();
     }
@@ -19,7 +19,15 @@ export async function extractTextFromFile(file: File): Promise<string> {
     return officeParser.parseOfficeAsync(fileBuffer);
 }
 
+function setCorsHeaders(res: VercelResponse) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+    setCorsHeaders(res);
+
     if (req.method !== "POST") {
         res.setHeader("Allow", ["POST"]);
         return res.status(405).json({ error: "Method Not Allowed" });
