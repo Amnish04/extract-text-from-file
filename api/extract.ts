@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 const officeParser = require("officeparser");
 import formidable from "formidable";
+import { promises as fs } from "fs";
 
 // Allow parsing multipart form data
 export const config = {
@@ -9,14 +10,17 @@ export const config = {
     },
 };
 
-async function extractTextFromFile(file: File): Promise<string> {
-    if (file.type.includes("text/")) {
-        return file.text();
+async function extractTextFromFile(file: formidable.File): Promise<string> {
+    const mimeType = file.mimetype;
+
+    if (mimeType?.includes("text/")) {
+        const buffer = await fs.readFile(file.filepath);
+        return buffer.toString("utf-8");
     }
 
-    const fileBuffer = await file.arrayBuffer();
+    const buffer = await fs.readFile(file.filepath);
 
-    return officeParser.parseOfficeAsync(fileBuffer);
+    return officeParser.parseOfficeAsync(buffer);
 }
 
 function setCorsHeaders(res: VercelResponse) {
