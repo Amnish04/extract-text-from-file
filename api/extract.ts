@@ -40,11 +40,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const form = formidable({ keepExtensions: true });
 
     try {
-        const [_, files] = await form.parse(req);
+        const { files } = await form.parse(req);
+
         const uploadedFile = files.file;
 
-        if (!uploadedFile) {
-            return res.status(400).json({ error: "No file uploaded" });
+        console.log("Uploaded file", uploadedFile);
+
+        if (!uploadedFile || Array.isArray(uploadedFile)) {
+            return res.status(400).json({ error: "Invalid file upload" });
         }
 
         const text = await extractTextFromFile(uploadedFile);
