@@ -1,16 +1,22 @@
-# Node.js Hello World
+# Document Parser API – Vercel Serverless Function
 
-Simple Node.js + Vercel example that returns a "Hello World" response.
+A Node.js + Vercel example that accepts a file upload via `POST`, extracts its text content using `extractTextFromFile()`, and returns it in the response.
 
-## How to Use
+## 🛠 How It Works
 
-You can choose from one of the following two methods to use this repository:
+- Accepts `multipart/form-data` file uploads via `POST /api/parse`
+- Responds with extracted text in JSON format
+
+## 🚀 How to Use
+
+You can choose from one of the following two methods:
 
 ### One-Click Deploy
 
 Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=vercel-examples):
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/examples/tree/main/solutions/node-hello-world&project-name=node-hello-world&repository-name=node-hello-world)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/examples/tree/main/solutions/node-hello-world&project-name=document-parser-api&repository-name=document-parser-api)
+
 
 ### Clone and Deploy
 
@@ -18,14 +24,41 @@ Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_mediu
 git clone https://github.com/vercel/examples/tree/main/solutions/node-hello-world
 ```
 
-Install the Vercel CLI:
+### Install Dependencies
 
-```bash
-npm i -g vercel
+```
+pnpm install
 ```
 
-Then run the app at the root of the repository:
+### Install the Vercel CLI (if not already installed):
 
-```bash
+```
+pnpm add -g vercel
+```
+
+### Run the development server:
+
+```
 vercel dev
 ```
+
+## 📤 Example Request (Frontend)
+Here’s how to call the API from a browser (e.g., React):
+
+```js
+const formData = new FormData();
+formData.append('file', selectedFile);
+
+const res = await fetch('/api/parse', {
+  method: 'POST',
+  body: formData,
+});
+
+const data = await res.json();
+console.log(data.content);
+```
+
+## 📝 Notes
+
+- This project uses [formidable](https://www.npmjs.com/package/formidable) for handling file uploads.
+- Text extraction is powered by [officeparser](https://www.npmjs.com/package/officeparser).
