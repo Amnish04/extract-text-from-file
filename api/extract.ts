@@ -41,7 +41,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     try {
         const [_, files] = await form.parse(req);
-        const uploadedFile = files.file;
+        const uploadedFileArray = files.file;
+
+        if (!uploadedFileArray || uploadedFileArray.length === 0) {
+            return res.status(400).json({ error: "No file uploaded" });
+        }
+
+        const uploadedFile = uploadedFileArray[0];
 
         console.log("Uploaded file", uploadedFile);
 
