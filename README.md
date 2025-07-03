@@ -1,6 +1,12 @@
 # Document Parser API – Vercel Serverless Function
 
-A Node.js + Vercel example that accepts a file upload via `POST`, extracts its text content using `extractTextFromFile()`, and returns it in the response.
+A Node.js + Vercel serverless function that accepts a file upload via `POST`, extracts its text content using `extractTextFromFile()`, and returns it in the response.
+
+## Motivation
+
+I wanted a lightweight service to parse text from different file types for my side projects. I could have also used the dockerized version of [apache/tika](https://hub.docker.com/r/apache/tika) but didn't wanna add unnecessary complications.
+
+So, I decided to vibe code one 😎
 
 ## 🛠 How It Works
 
