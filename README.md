@@ -20,7 +20,7 @@ Here’s how to call the API from a browser:
 const formData = new FormData();
 formData.append('file', selectedFile);
 
-const url = new URL('api/parse', 'https://extract-text-from-file.vercel.app/');
+const url = new URL('api/extract', 'https://extract-text-from-file.vercel.app/');
 const res = await fetch(url, {
   method: 'POST',
   body: formData,
